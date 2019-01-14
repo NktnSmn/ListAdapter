@@ -1,8 +1,8 @@
 package com.nktnsmn.listadapter.base
 
 import android.support.v7.widget.RecyclerView
-import com.nktnsmn.listadapter.items.AdapterItems
-import com.nktnsmn.listadapter.viewholder.ViewHolder
+import com.nktnsmn.listadapter.base.adapteritems.AdapterItems
+import com.nktnsmn.listadapter.base.viewholder.ViewHolder
 
 abstract class ListAdapter<AI : AdapterItems<*>, VH : ViewHolder>(
     val items: AI

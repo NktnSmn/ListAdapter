@@ -1,7 +1,8 @@
-package com.nktnsmn.listadapter.viewholder
+package com.nktnsmn.listadapter.cellular.viewholder
 
 import android.databinding.ViewDataBinding
 import android.util.SparseArray
+import com.nktnsmn.listadapter.base.viewholder.ViewHolder
 
 open class BindableViewHolder @JvmOverloads constructor(
     private val viewDataBinding: ViewDataBinding,

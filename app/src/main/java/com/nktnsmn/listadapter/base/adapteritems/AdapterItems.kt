@@ -1,4 +1,4 @@
-package com.nktnsmn.listadapter.items
+package com.nktnsmn.listadapter.base.adapteritems
 
 import android.support.v7.widget.RecyclerView
 

@@ -1,6 +1,4 @@
-package com.nktnsmn.listadapter.items
-
-import com.nktnsmn.listadapter.checkIndexOfBounds
+package com.nktnsmn.listadapter.base.adapteritems
 
 open class MutableAdapterItems<T> : AdapterItems<T>() {
 
@@ -26,7 +24,7 @@ open class MutableAdapterItems<T> : AdapterItems<T>() {
     }
 
     fun set(item: T, position: Int): Boolean =
-        if (items.checkIndexOfBounds(position)) {
+        if (checkIndexOfBounds(position)) {
             items[position] = item
             adapter?.notifyItemChanged(position)
             true
@@ -35,11 +33,13 @@ open class MutableAdapterItems<T> : AdapterItems<T>() {
         }
 
     fun remove(position: Int): Boolean =
-        if (items.checkIndexOfBounds(position)) {
+        if (checkIndexOfBounds(position)) {
             items.removeAt(position)
             adapter?.notifyItemRemoved(position)
             true
         } else {
             false
         }
+
+    private fun checkIndexOfBounds(position: Int): Boolean = position in 0 until size()
 }

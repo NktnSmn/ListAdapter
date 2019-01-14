@@ -2,10 +2,10 @@ package com.nktnsmn.listadapter.cellular
 
 import com.nktnsmn.listadapter.base.ListAdapter
 import com.nktnsmn.listadapter.base.item.IdentifiableItem
-import com.nktnsmn.listadapter.items.AdapterItems
+import com.nktnsmn.listadapter.base.adapteritems.AdapterItems
 import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCell
 import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCells
-import com.nktnsmn.listadapter.viewholder.BindableViewHolder
+import com.nktnsmn.listadapter.cellular.viewholder.BindableViewHolder
 
 abstract class CellularListAdapter<AI : AdapterItems<IdentifiableItem>, VH : BindableViewHolder>(
     items: AI,
