@@ -6,7 +6,7 @@ import com.nktnsmn.listadapter.base.item.IdentifiableItem
 import com.nktnsmn.listadapter.base.adapteritems.AdapterItemsWithAsyncDiffer
 import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCells
 import com.nktnsmn.listadapter.cellular.itemviewcell.createBinding
-import com.nktnsmn.listadapter.cellular.viewholder.BindableViewHolder
+import com.nktnsmn.listadapter.base.viewholder.BindableViewHolder
 
 class DefaultCellularListAdapter(
     itemViewCells: ItemViewCells
