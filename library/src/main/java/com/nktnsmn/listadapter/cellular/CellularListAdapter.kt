@@ -1,26 +1,19 @@
 package com.nktnsmn.listadapter.cellular
 
-import com.nktnsmn.listadapter.base.ListAdapter
-import com.nktnsmn.listadapter.base.item.IdentifiableItem
-import com.nktnsmn.listadapter.base.viewholder.BindableViewHolder
+import android.view.ViewGroup
+import com.nktnsmn.listadapter.ListAdapter
 import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCell
 import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCells
+import com.nktnsmn.listadapter.viewholder.ViewHolder
 
-abstract class CellularListAdapter<VH : BindableViewHolder>(
-    protected val itemViewCells: ItemViewCells
-) : ListAdapter<IdentifiableItem, VH>() {
+open class CellularListAdapter<VH : ViewHolder<*>>(
+    protected val itemViewCells: ItemViewCells<VH>
+) : ListAdapter<Any, VH>() {
 
-    constructor(vararg itemViewCells: ItemViewCell) : this(ItemViewCells(*itemViewCells))
+    constructor(vararg itemViewCells: ItemViewCell<out VH>) : this(ItemViewCells(*itemViewCells))
 
     override fun getItemViewType(position: Int): Int = itemViewCells.getForItem(items[position]).viewType
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        val item = items[position]
-        val itemViewCell = itemViewCells.getForItem(item)
-        onBindViewHolder(holder, item, itemViewCell)
-    }
-
-    protected fun onBindViewHolder(holder: VH, item: Any, itemViewCell: ItemViewCell) {
-        holder.bind(itemViewCell.itemBindingVariableId, item)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
+        itemViewCells.getForViewType(viewType).createViewHolder(parent)
 }

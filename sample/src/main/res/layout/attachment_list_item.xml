@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:paddingStart="@dimen/list_item_default_horizontal_space"
+    android:paddingEnd="@dimen/list_item_default_horizontal_space">
+
+    <ImageView
+        android:id="@+id/attachment_icon_view"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:src="@drawable/ic_file"
+        tools:tint="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/attachment_name_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/list_item_default_horizontal_space"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/attachment_icon_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Attachment.png"/>
+
+</android.support.constraint.ConstraintLayout>
