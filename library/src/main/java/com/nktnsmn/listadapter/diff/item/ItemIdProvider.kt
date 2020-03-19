@@ -9,3 +9,10 @@ class IdentifiableItemIdProvider<ID : Any> : ItemIdProvider<IdentifiableItem<ID>
 
     override fun getItemId(item: IdentifiableItem<ID>): ID = item.id
 }
+
+inline fun <ITEM : Any, ID : Any> itemIdProvider(
+    crossinline getItemId: (ITEM) -> ID
+): ItemIdProvider<ITEM, ID> =
+    object : ItemIdProvider<ITEM, ID> {
+        override fun getItemId(item: ITEM): ID = getItemId(item)
+    }

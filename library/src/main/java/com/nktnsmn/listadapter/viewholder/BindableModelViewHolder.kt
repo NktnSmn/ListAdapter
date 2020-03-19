@@ -1,6 +1,6 @@
 package com.nktnsmn.listadapter.viewholder
 
-import android.databinding.ViewDataBinding
+import androidx.databinding.ViewDataBinding
 
 internal class BindableModelViewHolder(
     viewDataBinding: ViewDataBinding,

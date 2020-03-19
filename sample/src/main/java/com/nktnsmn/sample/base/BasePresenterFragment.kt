@@ -1,10 +1,10 @@
 package com.nktnsmn.sample.base
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 abstract class BasePresenterFragment<VIEW, PRESENTER : BasePresenter<VIEW>> : Fragment() {
 

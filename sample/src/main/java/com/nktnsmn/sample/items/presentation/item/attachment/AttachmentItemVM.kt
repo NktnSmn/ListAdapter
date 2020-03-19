@@ -1,6 +1,6 @@
 package com.nktnsmn.sample.items.presentation.item.attachment
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
 
 class AttachmentItemVM(

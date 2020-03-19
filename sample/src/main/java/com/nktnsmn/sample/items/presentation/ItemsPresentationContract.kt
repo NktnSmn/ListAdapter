@@ -1,13 +1,13 @@
 package com.nktnsmn.sample.items.presentation
 
 import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
-import com.nktnsmn.listadapter.listitems.impl.BaseObservableListItems
+import com.nktnsmn.listadapter.listitems.ListItems
 import com.nktnsmn.sample.base.BasePresenter
 import com.nktnsmn.sample.items.presentation.item.ImageItemClickListener
 
 interface ItemsView {
 
-    fun setupItems(items: BaseObservableListItems<IdentifiableByAnyItem>)
+    fun setupItems(items: ListItems<IdentifiableByAnyItem>)
 
     fun hideRefresher()
 

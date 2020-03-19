@@ -1,8 +1,8 @@
 package com.nktnsmn.listadapter.cellular.itemviewcell.impl
 
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
 import android.util.SparseArray
+import androidx.annotation.LayoutRes
+import androidx.databinding.ViewDataBinding
 import com.nktnsmn.listadapter.viewholder.BaseBindingViewHolder
 import com.nktnsmn.listadapter.viewholder.BindableModelViewHolder
 

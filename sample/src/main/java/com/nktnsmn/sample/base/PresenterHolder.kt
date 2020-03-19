@@ -1,6 +1,6 @@
 package com.nktnsmn.sample.base
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 
 class PresenterHolder<PRESENTER : BasePresenter<*>>(val presenter: PRESENTER) : ViewModel() {
 

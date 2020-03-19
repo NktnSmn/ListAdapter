@@ -1,7 +1,7 @@
 package com.nktnsmn.sample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.nktnsmn.sample.items.presentation.ItemsFragment
 
 class MainActivity : AppCompatActivity() {

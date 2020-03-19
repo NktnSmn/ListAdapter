@@ -1,6 +1,6 @@
-package com.nktnsmn.listadapter.listitems.observer
+package com.nktnsmn.listadapter.observer
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 class ListItemsObserverAdapter(private val adapter: RecyclerView.Adapter<*>) : ListItemsObserver {
 

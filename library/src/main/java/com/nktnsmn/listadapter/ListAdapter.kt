@@ -1,13 +1,13 @@
 package com.nktnsmn.listadapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import com.nktnsmn.listadapter.listitems.ListItems
 import com.nktnsmn.listadapter.listitems.impl.StableListItems
 import com.nktnsmn.listadapter.viewholder.ViewHolder
 
 abstract class ListAdapter<T : Any, VH : ViewHolder<*>> : RecyclerView.Adapter<VH>() {
 
-    var items: ListItems<out T> = StableListItems.Empty
+    var items: ListItems<out T> = StableListItems()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -30,10 +30,8 @@ abstract class ListAdapter<T : Any, VH : ViewHolder<*>> : RecyclerView.Adapter<V
         viewHolder.onRecycled()
     }
 
-    override fun onFailedToRecycleView(viewHolder: VH): Boolean {
+    override fun onFailedToRecycleView(viewHolder: VH): Boolean =
         viewHolder.onFailedToRecycleView()
-        return super.onFailedToRecycleView(viewHolder)
-    }
 
     override fun onBindViewHolder(viewHolder: VH, position: Int) {
         viewHolder.bindData(items[position])

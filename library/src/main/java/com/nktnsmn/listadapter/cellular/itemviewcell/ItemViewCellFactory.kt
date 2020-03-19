@@ -1,7 +1,8 @@
-package com.nktnsmn.listadapter.cellular.itemviewcell.impl
+package com.nktnsmn.listadapter.cellular.itemviewcell
 
-import android.support.annotation.LayoutRes
 import android.util.SparseArray
+import androidx.annotation.LayoutRes
+import com.nktnsmn.listadapter.cellular.itemviewcell.impl.BindableModelViewCell
 
 object ItemViewCellFactory {
 

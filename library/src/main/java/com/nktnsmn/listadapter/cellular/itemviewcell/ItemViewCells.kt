@@ -16,8 +16,6 @@ class ItemViewCells<out VH : ViewHolder<*>>(vararg itemViewCells: ItemViewCell<o
         lastUsedItemViewCell?.let { lastUsedItemViewCell ->
             if (lastUsedItemViewCell.isSuitableForItem(item)) {
                 return lastUsedItemViewCell
-            } else {
-                this.lastUsedItemViewCell = null
             }
         }
         for (i in 0 until itemViewCells.size()) {

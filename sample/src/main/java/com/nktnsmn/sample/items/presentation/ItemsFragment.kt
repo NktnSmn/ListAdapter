@@ -1,18 +1,18 @@
 package com.nktnsmn.sample.items.presentation
 
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nktnsmn.listadapter.cellular.CellularListAdapter
-import com.nktnsmn.listadapter.cellular.itemviewcell.impl.ItemViewCellFactory
+import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCellFactory
 import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
-import com.nktnsmn.listadapter.listitems.impl.BaseObservableListItems
-import com.nktnsmn.listadapter.listitems.observer.ListItemsObserverAdapter
+import com.nktnsmn.listadapter.listitems.ListItems
+import com.nktnsmn.listadapter.observer.ListItemsObserverAdapter
 import com.nktnsmn.listadapter.viewholder.ViewHolder
 import com.nktnsmn.sample.BR
 import com.nktnsmn.sample.R
@@ -55,19 +55,29 @@ class ItemsFragment : BasePresenterFragment<ItemsView, ItemsPresenter>(), ItemsV
             setOnRefreshListener { presenter.refreshItems() }
         }
         itemsListView = rootView.findViewById<RecyclerView>(R.id.items_list_view).apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = object : LinearLayoutManager(context) {
+                override fun supportsPredictiveItemAnimations(): Boolean = false
+            }
             adapter = itemsAdapter
         }
         return rootView
     }
 
-    override fun setupItems(items: BaseObservableListItems<IdentifiableByAnyItem>) {
-        items.holdObserver(ListItemsObserverAdapter(itemsAdapter))
+    override fun setupItems(items: ListItems<IdentifiableByAnyItem>) {
+        items.observer = ListItemsObserverAdapter(itemsAdapter)
         itemsAdapter.items = items
     }
 
     override fun hideRefresher() {
         refreshItemsView.isRefreshing = false
+        refreshItemsView.postDelayed(::refreshAgain, 300)
+    }
+
+    private fun refreshAgain() {
+        refreshItemsView.isRefreshing = true
+        presenter.refreshItems()
+        refreshItemsView.postDelayed(presenter::refreshItems, 10)
+        refreshItemsView.postDelayed(presenter::refreshItems, 15)
     }
 
     override fun showToast(message: String) {

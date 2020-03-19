@@ -1,7 +1,7 @@
 package com.nktnsmn.listadapter.viewholder
 
-import android.databinding.ViewDataBinding
 import android.util.SparseArray
+import androidx.databinding.ViewDataBinding
 
 abstract class BaseBindingViewHolder<DATA : Any, VDB : ViewDataBinding>(
     protected val viewDataBinding: VDB

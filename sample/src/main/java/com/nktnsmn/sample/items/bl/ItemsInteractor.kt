@@ -1,8 +1,8 @@
 package com.nktnsmn.sample.items.bl
 
 import android.content.Context
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
 import com.nktnsmn.sample.R
 import com.nktnsmn.sample.items.presentation.item.ColorItemVM
@@ -57,11 +57,15 @@ class ItemsInteractor(private val appContext: Context) {
         "Archive Attachment.rar"
     )
 
-    fun getItems(): Single<List<IdentifiableByAnyItem>> =
+    fun getItems(): Single<MutableList<IdentifiableByAnyItem>> =
         Single.fromCallable {
-            mutableListOf<IdentifiableByAnyItem>().also { list ->
-                for (i in 0..(1 + Random.nextInt(300))) {
-                    list.add(randomItem(i.toString()))
+            if (Random.nextBoolean()) {
+                mutableListOf()
+            } else {
+                mutableListOf<IdentifiableByAnyItem>().also { list ->
+                    for (i in 0..Random.nextInt(3000)) {
+                        list.add(randomItem(i.toString()))
+                    }
                 }
             }
         }

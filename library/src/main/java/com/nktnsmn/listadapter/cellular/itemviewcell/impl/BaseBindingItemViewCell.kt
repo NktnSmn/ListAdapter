@@ -1,11 +1,11 @@
 package com.nktnsmn.listadapter.cellular.itemviewcell.impl
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.nktnsmn.listadapter.viewholder.BaseBindingViewHolder
 
 abstract class BaseBindingItemViewCell<VDB : ViewDataBinding, VH : BaseBindingViewHolder<*, VDB>>(

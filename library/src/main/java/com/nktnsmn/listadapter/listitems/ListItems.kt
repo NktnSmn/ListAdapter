@@ -1,8 +1,11 @@
 package com.nktnsmn.listadapter.listitems
 
-import android.support.annotation.AnyThread
+import androidx.annotation.AnyThread
+import com.nktnsmn.listadapter.observer.ListItemsObserver
 
 interface ListItems<ITEM : Any> {
+
+    var observer: ListItemsObserver?
 
     @AnyThread
     fun getAll(): List<ITEM>

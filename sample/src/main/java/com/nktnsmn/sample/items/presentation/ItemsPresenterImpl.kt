@@ -1,8 +1,12 @@
 package com.nktnsmn.sample.items.presentation
 
 import android.content.Context
-import com.nktnsmn.listadapter.diff.DiffFactory
-import com.nktnsmn.listadapter.listitems.impl.DefaultConvertibleListItems
+import com.nktnsmn.listadapter.diff.DiffCallbackWithHandler
+import com.nktnsmn.listadapter.diff.diffItemCallback
+import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.SameItemConversionHandler
+import com.nktnsmn.listadapter.listitems.ConvertibleListItems
+import com.nktnsmn.listadapter.listitems.impl.ConvertibleListItemsImpl
 import com.nktnsmn.sample.items.bl.ItemsInteractor
 import com.nktnsmn.sample.items.presentation.item.ImageItemVM
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +17,8 @@ import io.reactivex.schedulers.Schedulers
 class ItemsPresenterImpl(appContext: Context) : ItemsPresenter {
 
     private val itemsInteractor = ItemsInteractor(appContext)
-    private val listItems = DefaultConvertibleListItems(DiffFactory.diffItemCallback())
+    private val listItems: ConvertibleListItems<IdentifiableByAnyItem> = ConvertibleListItemsImpl(diffItemCallback())
+    private val sameItemConversionHandler = SameItemConversionHandler.insertionIntoNewList<IdentifiableByAnyItem>()
     private val fullLifecycleDisposable = CompositeDisposable()
     private var view: ItemsView? = null
 
@@ -27,7 +32,7 @@ class ItemsPresenterImpl(appContext: Context) : ItemsPresenter {
 
     override fun detachView() {
         view = null
-        listItems.releaseObserver()
+        listItems.observer = null
     }
 
     override fun destroy() {
@@ -37,9 +42,11 @@ class ItemsPresenterImpl(appContext: Context) : ItemsPresenter {
     override fun refreshItems() {
         fullLifecycleDisposable.add(
             itemsInteractor.getItems()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.computation())
                 .doOnSuccess { items ->
-                    listItems.convertTo(items)
+                    listItems.convertTo(items) { oldItems, diffItemCallback ->
+                        DiffCallbackWithHandler(oldItems, items, diffItemCallback, sameItemConversionHandler)
+                    }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer {
@@ -49,9 +56,9 @@ class ItemsPresenterImpl(appContext: Context) : ItemsPresenter {
     }
 
     override fun onImageItemClick(imageItemVM: ImageItemVM) {
-        listItems.set(
-            itemsInteractor.randomItem(imageItemVM.id),
-            listItems.getAll().indexOf(imageItemVM)
-        )
+        //listItems.set(
+        //    itemsInteractor.randomItem(imageItemVM.id),
+        //    listItems.getAll().indexOf(imageItemVM)
+        //)
     }
 }

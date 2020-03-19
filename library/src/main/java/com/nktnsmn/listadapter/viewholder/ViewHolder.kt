@@ -1,7 +1,7 @@
 package com.nktnsmn.listadapter.viewholder
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 abstract class ViewHolder<DATA : Any>(view: View) : RecyclerView.ViewHolder(view) {
 

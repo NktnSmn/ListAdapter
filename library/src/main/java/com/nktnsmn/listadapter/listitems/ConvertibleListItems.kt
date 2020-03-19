@@ -1,9 +1,13 @@
 package com.nktnsmn.listadapter.listitems
 
-import android.support.annotation.AnyThread
+import androidx.annotation.AnyThread
+import androidx.recyclerview.widget.DiffUtil
 
-interface ConvertibleListItems<ITEM : Any> : ObservableListItems<ITEM> {
+interface ConvertibleListItems<ITEM : Any> : ListItems<ITEM> {
 
     @AnyThread
-    fun convertTo(newItems: List<ITEM>)
+    fun convertTo(
+        newItems: List<ITEM>,
+        createDiffCallback: (oldItems: List<ITEM>, diffItemCallback: DiffUtil.ItemCallback<ITEM>) -> DiffUtil.Callback
+    )
 }
