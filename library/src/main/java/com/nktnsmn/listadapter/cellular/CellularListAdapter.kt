@@ -6,11 +6,11 @@ import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCell
 import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCells
 import com.nktnsmn.listadapter.viewholder.ViewHolder
 
-open class CellularListAdapter<VH : ViewHolder<*>>(
-    protected val itemViewCells: ItemViewCells<VH>
-) : ListAdapter<Any, VH>() {
+open class CellularListAdapter<ITEM : Any, VH : ViewHolder<ITEM>>(
+    protected val itemViewCells: ItemViewCells<ITEM, VH>
+) : ListAdapter<ITEM, VH>() {
 
-    constructor(vararg itemViewCells: ItemViewCell<out VH>) : this(ItemViewCells(*itemViewCells))
+    constructor(vararg itemViewCells: ItemViewCell<ITEM, VH>) : this(ItemViewCells(*itemViewCells))
 
     override fun getItemViewType(position: Int): Int = itemViewCells.getForItem(items[position]).viewType
 

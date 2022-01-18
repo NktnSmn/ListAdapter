@@ -3,35 +3,27 @@ package com.nktnsmn.listadapter.cellular.itemviewcell
 import android.util.SparseArray
 import com.nktnsmn.listadapter.viewholder.ViewHolder
 
-class ItemViewCells<out VH : ViewHolder<*>>(vararg itemViewCells: ItemViewCell<out VH>) {
+class ItemViewCells<ITEM : Any, VH : ViewHolder<ITEM>>(itemViewCells: Collection<ItemViewCell<ITEM, VH>>) {
 
-    private val itemViewCells = SparseArray<ItemViewCell<out VH>>(itemViewCells.size)
-    private var lastUsedItemViewCell: ItemViewCell<out VH>? = null
+    private val itemViewCells = SparseArray<ItemViewCell<ITEM, VH>>(itemViewCells.size)
+
+    constructor(vararg itemViewCells: ItemViewCell<ITEM, VH>) : this(itemViewCells.asList())
 
     init {
-        itemViewCells.forEach { cell -> this.itemViewCells.put(cell.viewType, cell) }
+        itemViewCells.forEach { this.itemViewCells.put(it.viewType, it) }
     }
 
-    fun getForItem(item: Any): ItemViewCell<out VH> {
-        lastUsedItemViewCell?.let { lastUsedItemViewCell ->
-            if (lastUsedItemViewCell.isSuitableForItem(item)) {
-                return lastUsedItemViewCell
-            }
-        }
+    fun getForItem(item: ITEM): ItemViewCell<ITEM, VH> {
         for (i in 0 until itemViewCells.size()) {
             val itemViewCell = itemViewCells.valueAt(i)
             if (itemViewCell.isSuitableForItem(item)) {
-                lastUsedItemViewCell = itemViewCell
                 return itemViewCell
             }
         }
-        throw Exception("Ячейка для элемента $item не найдена")
+        throw IllegalStateException("Cell for item $item not found")
     }
 
-    fun getForViewType(viewType: Int): ItemViewCell<out VH> =
-        itemViewCells.get(viewType).also { itemViewCell ->
-            lastUsedItemViewCell = itemViewCell
-        }
-            ?: throw Exception("Ячейка с типом вью $viewType не найдена")
+    fun getForViewType(viewType: Int): ItemViewCell<ITEM, VH> =
+        itemViewCells.get(viewType) ?: throw IllegalStateException("Cell with view type $viewType not found")
 
 }

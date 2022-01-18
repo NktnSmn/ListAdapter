@@ -3,32 +3,19 @@ package com.nktnsmn.listadapter.viewholder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class ViewHolder<DATA : Any>(view: View) : RecyclerView.ViewHolder(view) {
+abstract class ViewHolder<out DATA : Any>(view: View) : RecyclerView.ViewHolder(view) {
 
-    fun onAttachedToWindow() {
-    }
+    fun onAttachedToWindow() = Unit
 
-    fun onDetachedFromWindow() {
-    }
+    fun onDetachedFromWindow() = Unit
 
-    fun onRecycled() {
-    }
+    fun onRecycled() = Unit
 
     fun onFailedToRecycleView(): Boolean = false
 
-    @Suppress("UNCHECKED_CAST")
-    fun bindData(data: Any) {
-        bindDataInternal(data as DATA)
-    }
+    abstract fun bindData(data: @UnsafeVariance DATA)
 
-    @Suppress("UNCHECKED_CAST")
-    fun bindData(data: Any, payloads: MutableList<Any>) {
-        bindDataInternal(data as DATA, payloads)
-    }
-
-    protected abstract fun bindDataInternal(data: DATA)
-
-    protected open fun bindDataInternal(data: DATA, payloads: MutableList<Any>) {
-        bindDataInternal(data)
+    open fun bindData(data: @UnsafeVariance DATA, payloads: List<Any>) {
+        bindData(data)
     }
 }

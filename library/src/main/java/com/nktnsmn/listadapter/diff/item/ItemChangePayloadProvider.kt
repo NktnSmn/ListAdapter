@@ -1,19 +1,18 @@
 package com.nktnsmn.listadapter.diff.item
 
-interface ItemChangePayloadProvider<in ITEM : Any> {
+interface ItemChangePayloadProvider<in ITEM> {
 
-    fun getChangePayload(firstItem: ITEM, secondItem: ITEM): Any?
+    fun getChangePayload(first: ITEM, second: ITEM): Any?
 }
 
 class UnitChangePayloadProvider : ItemChangePayloadProvider<Any> {
 
-    override fun getChangePayload(firstItem: Any, secondItem: Any): Any? = Unit
+    override fun getChangePayload(first: Any, second: Any): Any? = Unit
 }
 
 inline fun <ITEM : Any> itemChangePayloadProvider(
-    crossinline getChangePayload: (ITEM, ITEM) -> Any?
+    crossinline getChangePayload: (first: ITEM, second: ITEM) -> Any?
 ): ItemChangePayloadProvider<ITEM> =
     object : ItemChangePayloadProvider<ITEM> {
-        override fun getChangePayload(firstItem: ITEM, secondItem: ITEM): Any? =
-            getChangePayload(firstItem, secondItem)
+        override fun getChangePayload(first: ITEM, second: ITEM): Any? = getChangePayload(first, second)
     }

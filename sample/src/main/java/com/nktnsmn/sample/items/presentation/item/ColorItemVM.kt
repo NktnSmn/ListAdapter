@@ -1,11 +1,11 @@
 package com.nktnsmn.sample.items.presentation.item
 
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 
 class ColorItemVM(
     override val id: String,
     val color: Int
-) : IdentifiableByAnyItem {
+) : ItemIdModel {
 
     //region equals&hashCode
     override fun equals(other: Any?): Boolean {

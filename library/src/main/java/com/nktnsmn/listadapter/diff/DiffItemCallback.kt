@@ -3,8 +3,8 @@ package com.nktnsmn.listadapter.diff
 import androidx.recyclerview.widget.DiffUtil
 import com.nktnsmn.listadapter.diff.item.*
 
-open class DiffItemCallback<ITEM : Any, ITEM_ID : Any>(
-    private val itemIdProvider: ItemIdProvider<ITEM, ITEM_ID>,
+open class DiffItemCallback<ITEM : Any>(
+    private val itemIdProvider: ItemIdProvider<ITEM>,
     private val itemComparator: ItemComparator<ITEM> = ByEqualsItemComparator(),
     private val changePayloadProvider: ItemChangePayloadProvider<ITEM>? = null
 ) : DiffUtil.ItemCallback<ITEM>() {
@@ -19,11 +19,18 @@ open class DiffItemCallback<ITEM : Any, ITEM_ID : Any>(
         changePayloadProvider?.getChangePayload(oldItem, newItem)
 }
 
+fun diffItemCallback(
+    itemIdProvider: ItemIdProvider<ItemIdModel> = ItemIdByModelProvider(),
+    itemComparator: ItemComparator<ItemIdModel> = ByEqualsItemComparator(),
+    changePayloadProvider: ItemChangePayloadProvider<ItemIdModel>? = null
+): DiffItemCallback<ItemIdModel> =
+    DiffItemCallback(itemIdProvider, itemComparator, changePayloadProvider)
+
 inline fun <ITEM : Any, ID : Any> diffItemCallback(
     crossinline getItemId: (ITEM) -> ID,
     crossinline compareItems: (ITEM, ITEM) -> Boolean,
     crossinline getChangePayload: (ITEM, ITEM) -> Any?
-): DiffItemCallback<ITEM, ID> =
+): DiffItemCallback<ITEM> =
     DiffItemCallback(
         itemIdProvider(getItemId),
         itemComparator(compareItems),
@@ -33,15 +40,9 @@ inline fun <ITEM : Any, ID : Any> diffItemCallback(
 inline fun <ITEM : Any, ID : Any> diffItemCallback(
     crossinline getItemId: (ITEM) -> ID,
     crossinline compareItems: (ITEM, ITEM) -> Boolean
-): DiffItemCallback<ITEM, ID> =
+): DiffItemCallback<ITEM> =
     DiffItemCallback(
         itemIdProvider(getItemId),
         itemComparator(compareItems)
     )
 
-fun diffItemCallback(
-    itemIdProvider: ItemIdProvider<IdentifiableByAnyItem, Any> = IdentifiableItemIdProvider(),
-    itemComparator: ItemComparator<IdentifiableByAnyItem> = ByEqualsItemComparator(),
-    changePayloadProvider: ItemChangePayloadProvider<IdentifiableByAnyItem>? = null
-): DiffItemCallback<IdentifiableByAnyItem, Any> =
-    DiffItemCallback(itemIdProvider, itemComparator, changePayloadProvider)

@@ -1,11 +1,11 @@
 package com.nktnsmn.sample.items.presentation.item.text
 
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 
 class TextItemVM(
     override val id: String,
     val content: Content
-) : IdentifiableByAnyItem {
+) : ItemIdModel {
 
     data class Content(val content: String)
 

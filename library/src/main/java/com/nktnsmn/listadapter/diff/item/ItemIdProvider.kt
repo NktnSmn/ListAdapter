@@ -1,18 +1,19 @@
 package com.nktnsmn.listadapter.diff.item
 
-interface ItemIdProvider<in ITEM : Any, out ID : Any> {
+interface ItemIdProvider<ITEM : Any> {
 
-    fun getItemId(item: ITEM): ID
+    fun getItemId(item: ITEM): Any
 }
 
-class IdentifiableItemIdProvider<ID : Any> : ItemIdProvider<IdentifiableItem<ID>, ID> {
+class ItemIdByModelProvider : ItemIdProvider<ItemIdModel> {
 
-    override fun getItemId(item: IdentifiableItem<ID>): ID = item.id
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun getItemId(itemIdModel: ItemIdModel): Any = itemIdModel.id
 }
 
-inline fun <ITEM : Any, ID : Any> itemIdProvider(
-    crossinline getItemId: (ITEM) -> ID
-): ItemIdProvider<ITEM, ID> =
-    object : ItemIdProvider<ITEM, ID> {
-        override fun getItemId(item: ITEM): ID = getItemId(item)
+inline fun <ITEM : Any> itemIdProvider(
+    crossinline getItemId: (ITEM) -> Any
+): ItemIdProvider<ITEM> =
+    object : ItemIdProvider<ITEM> {
+        override fun getItemId(item: ITEM): Any = getItemId(item)
     }

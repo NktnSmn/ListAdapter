@@ -3,7 +3,7 @@ package com.nktnsmn.sample.items.bl
 import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 import com.nktnsmn.sample.R
 import com.nktnsmn.sample.items.presentation.item.ColorItemVM
 import com.nktnsmn.sample.items.presentation.item.ImageItemVM
@@ -57,12 +57,12 @@ class ItemsInteractor(private val appContext: Context) {
         "Archive Attachment.rar"
     )
 
-    fun getItems(): Single<MutableList<IdentifiableByAnyItem>> =
+    fun getItems(): Single<MutableList<ItemIdModel>> =
         Single.fromCallable {
-            if (Random.nextBoolean()) {
+            if (Random.nextDouble(0.0, 1.0) <= 0.25) {
                 mutableListOf()
             } else {
-                mutableListOf<IdentifiableByAnyItem>().also { list ->
+                mutableListOf<ItemIdModel>().also { list ->
                     for (i in 0..Random.nextInt(3000)) {
                         list.add(randomItem(i.toString()))
                     }
@@ -70,7 +70,7 @@ class ItemsInteractor(private val appContext: Context) {
             }
         }
 
-    fun randomItem(id: String): IdentifiableByAnyItem =
+    fun randomItem(id: String): ItemIdModel =
         when (itemTypes[Random.nextInt(itemTypes.size)]) {
             IMAGE_ITEM_TYPE -> {
                 val uriType: Int = Random.nextInt(uris.size)

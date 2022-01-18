@@ -1,14 +1,14 @@
 package com.nktnsmn.sample.items.presentation.item.attachment
 
 import androidx.annotation.DrawableRes
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 
 class AttachmentItemVM(
     override val id: String,
     @DrawableRes val iconResId: Int,
     val iconColor: Int,
     val name: String
-) : IdentifiableByAnyItem {
+) : ItemIdModel {
 
     //region equals&hashCode
     override fun equals(other: Any?): Boolean {

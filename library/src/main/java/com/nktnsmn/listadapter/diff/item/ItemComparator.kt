@@ -1,19 +1,18 @@
 package com.nktnsmn.listadapter.diff.item
 
-interface ItemComparator<in ITEM : Any> {
+interface ItemComparator<in ITEM> {
 
-    fun compare(firstItem: ITEM, secondItem: ITEM): Boolean
+    fun compare(first: ITEM, second: ITEM): Boolean
 }
 
-class ByEqualsItemComparator<in ITEM : Any> : ItemComparator<ITEM> {
+class ByEqualsItemComparator<in ITEM> : ItemComparator<ITEM> {
 
-    override fun compare(firstItem: ITEM, secondItem: ITEM): Boolean = firstItem == secondItem
+    override fun compare(first: ITEM, second: ITEM): Boolean = first == second
 }
 
 inline fun <ITEM : Any> itemComparator(
-    crossinline compareItems: (ITEM, ITEM) -> Boolean
+    crossinline compareItems: (first: ITEM, second: ITEM) -> Boolean
 ): ItemComparator<ITEM> =
     object : ItemComparator<ITEM> {
-        override fun compare(firstItem: ITEM, secondItem: ITEM): Boolean =
-            compareItems(firstItem, secondItem)
+        override fun compare(first: ITEM, second: ITEM): Boolean = compareItems(first, second)
     }

@@ -3,18 +3,10 @@ package com.nktnsmn.listadapter.util
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.AnyThread
-import java.util.concurrent.Executor
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-object UIThreadExecutor : Executor {
-
-    private val mHandler = Handler(Looper.getMainLooper())
-
-    override fun execute(command: Runnable) {
-        mHandler.post(command)
-    }
-}
+object UIHandler : Handler(Looper.getMainLooper())
 
 class UiThreadVar<T : Any> : ReadWriteProperty<Any?, T?> {
 
@@ -40,7 +32,7 @@ fun runOnUI(block: () -> Unit) {
     if (isUiThread()) {
         block()
     } else {
-        UIThreadExecutor.execute(block)
+        UIHandler.post(block)
     }
 }
 

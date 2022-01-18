@@ -5,17 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.nktnsmn.listadapter.cellular.itemviewcell.impl.BaseItemViewCell
+import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCell
 import com.nktnsmn.listadapter.viewholder.ViewHolder
 import com.nktnsmn.sample.R
 
-class AttachmentItemViewCell : BaseItemViewCell<AttachmentItemViewHolder>(
-    R.layout.attachment_list_item,
-    AttachmentItemVM::class.java
-) {
+class AttachmentItemViewCell : ItemViewCell<AttachmentItemVM, AttachmentItemViewHolder> {
 
-    override fun createViewHolder(inflater: LayoutInflater, parent: ViewGroup): AttachmentItemViewHolder {
-        val rootView: View = inflater.inflate(R.layout.attachment_list_item, parent, false)
+    override val viewType: Int get() = R.layout.attachment_list_item
+
+    override fun isSuitableForItem(item: Any): Boolean = item is AttachmentItemVM
+
+    override fun createViewHolder(parent: ViewGroup): AttachmentItemViewHolder {
+        val rootView: View = LayoutInflater.from(parent.context).inflate(R.layout.attachment_list_item, parent, false)
         return AttachmentItemViewHolder(
             rootView,
             rootView.findViewById(R.id.attachment_icon_view),
@@ -30,7 +31,7 @@ class AttachmentItemViewHolder(
     private val nameView: TextView
 ) : ViewHolder<AttachmentItemVM>(rootView) {
 
-    override fun bindDataInternal(data: AttachmentItemVM) {
+    override fun bindData(data: AttachmentItemVM) {
         iconView.setImageResource(data.iconResId)
         iconView.setColorFilter(data.iconColor)
         nameView.text = data.name

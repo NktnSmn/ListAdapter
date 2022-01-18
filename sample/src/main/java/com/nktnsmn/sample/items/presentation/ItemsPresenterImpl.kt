@@ -1,10 +1,11 @@
 package com.nktnsmn.sample.items.presentation
 
 import android.content.Context
+import android.util.Log
 import com.nktnsmn.listadapter.diff.DiffCallbackWithHandler
 import com.nktnsmn.listadapter.diff.diffItemCallback
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
-import com.nktnsmn.listadapter.diff.item.SameItemConversionHandler
+import com.nktnsmn.listadapter.diff.item.DiffSameItemHandler
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 import com.nktnsmn.listadapter.listitems.ConvertibleListItems
 import com.nktnsmn.listadapter.listitems.impl.ConvertibleListItemsImpl
 import com.nktnsmn.sample.items.bl.ItemsInteractor
@@ -17,8 +18,8 @@ import io.reactivex.schedulers.Schedulers
 class ItemsPresenterImpl(appContext: Context) : ItemsPresenter {
 
     private val itemsInteractor = ItemsInteractor(appContext)
-    private val listItems: ConvertibleListItems<IdentifiableByAnyItem> = ConvertibleListItemsImpl(diffItemCallback())
-    private val sameItemConversionHandler = SameItemConversionHandler.insertionIntoNewList<IdentifiableByAnyItem>()
+    private val listItems: ConvertibleListItems<ItemIdModel> = ConvertibleListItemsImpl(diffItemCallback())
+    private val sameItemConversionHandler = DiffSameItemHandler.insertionIntoNewList<ItemIdModel>()
     private val fullLifecycleDisposable = CompositeDisposable()
     private var view: ItemsView? = null
 
@@ -44,6 +45,7 @@ class ItemsPresenterImpl(appContext: Context) : ItemsPresenter {
             itemsInteractor.getItems()
                 .subscribeOn(Schedulers.computation())
                 .doOnSuccess { items ->
+                    Log.d("Looog", "${items.size}")
                     listItems.convertTo(items) { oldItems, diffItemCallback ->
                         DiffCallbackWithHandler(oldItems, items, diffItemCallback, sameItemConversionHandler)
                     }

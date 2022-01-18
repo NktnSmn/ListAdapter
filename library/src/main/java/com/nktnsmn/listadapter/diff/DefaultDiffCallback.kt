@@ -1,17 +1,31 @@
 package com.nktnsmn.listadapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 
-internal class DefaultDiffCallback<ITEM : Any>(
-    oldItems: List<ITEM>,
-    newItems: List<ITEM>,
-    diffItemCallback: DiffUtil.ItemCallback<ITEM>
-) : BaseDiffCallback<ITEM, List<ITEM>>(oldItems, newItems, diffItemCallback)
+open class DefaultDiffCallback<ITEM : Any, NEW_ITEMS : List<ITEM>>(
+    protected val oldItems: List<ITEM>,
+    protected val newItems: NEW_ITEMS,
+    protected val diffItemCallback: DiffUtil.ItemCallback<ITEM>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldItems.size
+
+    override fun getNewListSize(): Int = newItems.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        diffItemCallback.areItemsTheSame(oldItems[oldItemPosition], newItems[newItemPosition])
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        diffItemCallback.areContentsTheSame(oldItems[oldItemPosition], newItems[newItemPosition])
+
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? =
+        diffItemCallback.getChangePayload(oldItems[oldItemPosition], newItems[newItemPosition])
+}
 
 fun diffCallback(
-    oldItems: List<IdentifiableByAnyItem>,
-    newItems: List<IdentifiableByAnyItem>,
-    diffItemCallback: DiffUtil.ItemCallback<IdentifiableByAnyItem> = diffItemCallback()
-): BaseDiffCallback<IdentifiableByAnyItem, List<IdentifiableByAnyItem>> =
+    oldItems: List<ItemIdModel>,
+    newItems: List<ItemIdModel>,
+    diffItemCallback: DiffUtil.ItemCallback<ItemIdModel> = diffItemCallback()
+): DefaultDiffCallback<ItemIdModel, List<ItemIdModel>> =
     DefaultDiffCallback(oldItems, newItems, diffItemCallback)

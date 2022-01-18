@@ -1,13 +1,13 @@
 package com.nktnsmn.sample.items.presentation.item
 
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 
 data class ImageItemVM(
     override val id: String,
     val uri: String,
     val title: String,
     val description: String? = null
-) : IdentifiableByAnyItem {
+) : ItemIdModel {
 
     //region equals&hashCode
     override fun equals(other: Any?): Boolean {

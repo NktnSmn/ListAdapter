@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nktnsmn.listadapter.cellular.CellularListAdapter
-import com.nktnsmn.listadapter.cellular.itemviewcell.ItemViewCellFactory
-import com.nktnsmn.listadapter.diff.item.IdentifiableByAnyItem
+import com.nktnsmn.listadapter.cellular.itemviewcell.BindingItemViewCell
+import com.nktnsmn.listadapter.diff.item.ItemIdModel
 import com.nktnsmn.listadapter.listitems.ListItems
 import com.nktnsmn.listadapter.observer.ListItemsObserverAdapter
 import com.nktnsmn.listadapter.viewholder.ViewHolder
@@ -18,6 +18,7 @@ import com.nktnsmn.sample.BR
 import com.nktnsmn.sample.R
 import com.nktnsmn.sample.base.BasePresenterFragment
 import com.nktnsmn.sample.items.presentation.item.ColorItemVM
+import com.nktnsmn.sample.items.presentation.item.ImageItemClickListener
 import com.nktnsmn.sample.items.presentation.item.ImageItemVM
 import com.nktnsmn.sample.items.presentation.item.attachment.AttachmentItemViewCell
 import com.nktnsmn.sample.items.presentation.item.text.TextItemViewCell
@@ -30,22 +31,19 @@ class ItemsFragment : BasePresenterFragment<ItemsView, ItemsPresenter>(), ItemsV
 
     private lateinit var refreshItemsView: SwipeRefreshLayout
     private lateinit var itemsListView: RecyclerView
-    private lateinit var itemsAdapter: CellularListAdapter<ViewHolder<out Any>>
+    private lateinit var itemsAdapter: CellularListAdapter<ItemIdModel, ViewHolder<ItemIdModel>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         itemsAdapter = CellularListAdapter(
-            ItemViewCellFactory.forModel<ImageItemVM>(
+            TextItemViewCell(),
+            AttachmentItemViewCell(),
+            BindingItemViewCell.forModel<ImageItemVM>(
                 layoutResId = R.layout.image_list_item,
                 modelBindingVariableId = BR.viewModel,
-                buildGlobalBindingVariables = { array -> array.put(BR.clickListener, presenter) }
+                globalBindingVariables = mapOf(BR.clickListener to presenter as ImageItemClickListener)
             ),
-            ItemViewCellFactory.forModel<ColorItemVM>(
-                layoutResId = R.layout.color_list_item,
-                modelBindingVariableId = BR.viewModel
-            ),
-            TextItemViewCell(),
-            AttachmentItemViewCell()
+            BindingItemViewCell.forModel<ColorItemVM>(R.layout.color_list_item, BR.viewModel)
         )
     }
 
@@ -63,21 +61,24 @@ class ItemsFragment : BasePresenterFragment<ItemsView, ItemsPresenter>(), ItemsV
         return rootView
     }
 
-    override fun setupItems(items: ListItems<IdentifiableByAnyItem>) {
+    override fun setupItems(items: ListItems<ItemIdModel>) {
         items.observer = ListItemsObserverAdapter(itemsAdapter)
         itemsAdapter.items = items
     }
 
     override fun hideRefresher() {
         refreshItemsView.isRefreshing = false
-        refreshItemsView.postDelayed(::refreshAgain, 300)
+        refreshAgain()
     }
 
     private fun refreshAgain() {
-        refreshItemsView.isRefreshing = true
-        presenter.refreshItems()
-        refreshItemsView.postDelayed(presenter::refreshItems, 10)
-        refreshItemsView.postDelayed(presenter::refreshItems, 15)
+        refreshItemsView.postDelayed(
+            {
+                refreshItemsView.isRefreshing = true
+                presenter.refreshItems()
+            },
+            300
+        )
     }
 
     override fun showToast(message: String) {
